@@ -1,8 +1,17 @@
 package io.github.rhuann.domain.entity;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "CLIENTE")  //não é necessario usar essa anotação se a classe tiver o mesmo nome da tabela
 public class Cliente {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id") //não é necessario usar essa anotação se a coluna tiver o mesmo nome desse campo
     private Integer id;
+
+    @Column(name = "nome", length = 100)
     private String nome;
 
     public Cliente() {
