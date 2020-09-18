@@ -16,11 +16,36 @@ public class VendasApplication {
     @Bean
     public CommandLineRunner init(@Autowired ClientesRepository clientesRepo){
         return args -> {
-            clientesRepo.salvar(new Cliente("Rhuan"));
-            clientesRepo.salvar(new Cliente("Menezes"));
+            System.out.println("Salvando clientes...");
+            clientesRepo.salvar(new Cliente("Maria"));
+            clientesRepo.salvar(new Cliente("Fernando"));
 
             List<Cliente> todosClientes = clientesRepo.obterTodos();
             todosClientes.forEach(System.out::println);
+
+            System.out.println("Atualizando clientes...");
+            todosClientes.forEach(c -> {
+                c.setNome(c.getNome() + " atualizado.");
+                clientesRepo.atualizar(c);
+            });
+            todosClientes = clientesRepo.obterTodos();
+            todosClientes.forEach(System.out::println);
+
+            System.out.println("Buscando clientes...");
+            clientesRepo.buscarPorNome("ari").forEach(System.out::println);
+
+            System.out.println("Deletando clientes...");
+            clientesRepo.buscarPorNome("ari").forEach(c -> {
+                clientesRepo.deletar(c);
+            });
+
+            todosClientes = clientesRepo.obterTodos();
+            if (todosClientes.isEmpty()) {
+                System.out.println("Nenhum cliente encontrado");
+            } else {
+                todosClientes.forEach(System.out::println);
+            }
+
         };
     }
 
