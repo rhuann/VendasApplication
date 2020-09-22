@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,4 +20,8 @@ public interface ClientesRepository extends JpaRepository<Cliente, Integer> {
         void deleteByNome(String nome);
 
         boolean existsByNome(String nome);
+
+        @Query(" select c from Cliente c left join fetch c.pedidos p where c.id = :id")
+        Cliente findClienteFetchPedidos(@Param("id") Integer id);
+
 }
