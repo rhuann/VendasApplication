@@ -27,12 +27,34 @@ public class ClienteController {
         }
     }
 
-    @PostMapping()
+    @PostMapping
     @ResponseBody
     public ResponseEntity save(@RequestBody Cliente obj){
         Cliente clienteSalvo = clientesRepository.save(obj);
         return ResponseEntity.ok().body(clienteSalvo);
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseBody
+    public ResponseEntity delete(@PathVariable Integer id){
+        Optional<Cliente> obj = clientesRepository.findById(id);
+        if (obj.isPresent()) {
+            clientesRepository.delete(obj.get());
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/{id}")
+    @ResponseBody
+    public ResponseEntity update(@PathVariable Integer id, @RequestBody Cliente obj){
+        return clientesRepository.findById(id).map(clienteExistente -> {
+            obj.setId(clienteExistente.getId());
+            clientesRepository.save(obj);
+            return ResponseEntity.noContent().build();
+        }).orElseGet(() -> ResponseEntity.notFound().build());
+
+    }
 
 }
