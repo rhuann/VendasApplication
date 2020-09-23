@@ -1,7 +1,12 @@
 package io.github.rhuann.rest.dto;
 
-import javax.persistence.criteria.CriteriaBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ItemPedidoDTO {
 
     private Integer produto;
